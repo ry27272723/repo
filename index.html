@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Emotional Journey</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -12,7 +15,7 @@
         }
 
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Raleway', sans-serif;
             overflow: hidden;
             height: 100vh;
             transition: background 1.5s ease;
@@ -469,11 +472,13 @@
         }
 
         .result-title {
-            font-size: 56px;
+            font-size: 42px;
             color: white;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
             text-shadow: 0 0 30px rgba(255, 255, 255, 0.7);
             animation: appear 1s ease;
+            font-weight: 300;
+            letter-spacing: 6px;
         }
 
         @keyframes appear {
@@ -827,21 +832,171 @@
 
         // Fusion Results
         const fusionResults = {
-            'calm-energetic': { name: 'Vibrant', description: 'A balanced energy that flows with purpose', color1: '#8B5CF6', color2: '#EC4899', shape: 'diamond' },
-            'calm-peaceful': { name: 'Tranquil', description: 'Perfect harmony and inner peace', color1: '#06B6D4', color2: '#8B5CF6', shape: 'hexagon' },
-            'calm-mysterious': { name: 'Enigmatic', description: 'Quiet depth with hidden wonders', color1: '#3B82F6', color2: '#10B981', shape: 'triangle' },
-            'calm-intense': { name: 'Focused', description: 'Controlled power and determination', color1: '#EF4444', color2: '#3B82F6', shape: 'diamond' },
-            'calm-dreamy': { name: 'Meditative', description: 'Floating in peaceful consciousness', color1: '#A78BFA', color2: '#93C5FD', shape: 'circle' },
-            'energetic-peaceful': { name: 'Joyful', description: 'Happiness in its purest form', color1: '#FBBF24', color2: '#34D399', shape: 'star' },
-            'energetic-mysterious': { name: 'Electric', description: 'Unpredictable and exciting', color1: '#8B5CF6', color2: '#F59E0B', shape: 'triangle' },
-            'energetic-intense': { name: 'Explosive', description: 'Raw power unleashed', color1: '#EF4444', color2: '#F59E0B', shape: 'diamond' },
-            'energetic-dreamy': { name: 'Euphoric', description: 'Soaring above the clouds', color1: '#EC4899', color2: '#A78BFA', shape: 'star' },
-            'peaceful-mysterious': { name: 'Mystical', description: 'Serenity with a touch of magic', color1: '#06B6D4', color2: '#10B981', shape: 'hexagon' },
-            'peaceful-intense': { name: 'Resilient', description: 'Strength through calmness', color1: '#0EA5E9', color2: '#EF4444', shape: 'diamond' },
-            'peaceful-dreamy': { name: 'Blissful', description: 'Floating in perfect contentment', color1: '#93C5FD', color2: '#FCA5A5', shape: 'circle' },
-            'mysterious-intense': { name: 'Dramatic', description: 'Powerful and captivating', color1: '#7C3AED', color2: '#DC2626', shape: 'triangle' },
-            'mysterious-dreamy': { name: 'Surreal', description: 'Reality bends and flows', color1: '#8B5CF6', color2: '#A78BFA', shape: 'star' },
-            'intense-dreamy': { name: 'Passionate', description: 'Fire meets fantasy', color1: '#F43F5E', color2: '#C084FC', shape: 'diamond' }
+            'calm-energetic': {
+                name: 'Vibrant',
+                description: 'A balanced energy that flows with purpose',
+                color1: '#8B5CF6',
+                color2: '#EC4899',
+                shape: 'diamond',
+                particleCount: 55,
+                particleSpeed: 1.25,
+                particleShape: 'circle',
+                waveSpeed: 0.05
+            },
+            'calm-peaceful': {
+                name: 'Tranquil',
+                description: 'Perfect harmony and inner peace',
+                color1: '#06B6D4',
+                color2: '#8B5CF6',
+                shape: 'hexagon',
+                particleCount: 25,
+                particleSpeed: 0.4,
+                particleShape: 'circle',
+                waveSpeed: 0.015
+            },
+            'calm-mysterious': {
+                name: 'Enigmatic',
+                description: 'Quiet depth with hidden wonders',
+                color1: '#3B82F6',
+                color2: '#10B981',
+                shape: 'triangle',
+                particleCount: 40,
+                particleSpeed: 0.75,
+                particleShape: 'triangle',
+                waveSpeed: 0.035
+            },
+            'calm-intense': {
+                name: 'Focused',
+                description: 'Controlled power and determination',
+                color1: '#EF4444',
+                color2: '#3B82F6',
+                shape: 'diamond',
+                particleCount: 65,
+                particleSpeed: 1.75,
+                particleShape: 'square',
+                waveSpeed: 0.06
+            },
+            'calm-dreamy': {
+                name: 'Meditative',
+                description: 'Floating in peaceful consciousness',
+                color1: '#A78BFA',
+                color2: '#93C5FD',
+                shape: 'circle',
+                particleCount: 35,
+                particleSpeed: 0.65,
+                particleShape: 'circle',
+                waveSpeed: 0.025
+            },
+            'energetic-peaceful': {
+                name: 'Joyful',
+                description: 'Happiness in its purest form',
+                color1: '#FBBF24',
+                color2: '#34D399',
+                shape: 'star',
+                particleCount: 50,
+                particleSpeed: 1.15,
+                particleShape: 'circle',
+                waveSpeed: 0.045
+            },
+            'energetic-mysterious': {
+                name: 'Electric',
+                description: 'Unpredictable and exciting',
+                color1: '#8B5CF6',
+                color2: '#F59E0B',
+                shape: 'triangle',
+                particleCount: 90,
+                particleSpeed: 2.25,
+                particleShape: 'triangle',
+                waveSpeed: 0.085
+            },
+            'energetic-intense': {
+                name: 'Explosive',
+                description: 'Raw power unleashed',
+                color1: '#EF4444',
+                color2: '#F59E0B',
+                shape: 'diamond',
+                particleCount: 120,
+                particleSpeed: 2.8,
+                particleShape: 'square',
+                waveSpeed: 0.095
+            },
+            'energetic-dreamy': {
+                name: 'Euphoric',
+                description: 'Soaring above the clouds',
+                color1: '#EC4899',
+                color2: '#A78BFA',
+                shape: 'star',
+                particleCount: 70,
+                particleSpeed: 1.8,
+                particleShape: 'circle',
+                waveSpeed: 0.065
+            },
+            'peaceful-mysterious': {
+                name: 'Mystical',
+                description: 'Serenity with a touch of magic',
+                color1: '#06B6D4',
+                color2: '#10B981',
+                shape: 'hexagon',
+                particleCount: 35,
+                particleSpeed: 0.65,
+                particleShape: 'triangle',
+                waveSpeed: 0.03
+            },
+            'peaceful-intense': {
+                name: 'Resilient',
+                description: 'Strength through calmness',
+                color1: '#0EA5E9',
+                color2: '#EF4444',
+                shape: 'diamond',
+                particleCount: 60,
+                particleSpeed: 1.65,
+                particleShape: 'square',
+                waveSpeed: 0.055
+            },
+            'peaceful-dreamy': {
+                name: 'Blissful',
+                description: 'Floating in perfect contentment',
+                color1: '#93C5FD',
+                color2: '#FCA5A5',
+                shape: 'circle',
+                particleCount: 18,
+                particleSpeed: 0.35,
+                particleShape: 'circle',
+                waveSpeed: 0.012
+            },
+            'mysterious-intense': {
+                name: 'Dramatic',
+                description: 'Powerful and captivating',
+                color1: '#7C3AED',
+                color2: '#DC2626',
+                shape: 'triangle',
+                particleCount: 85,
+                particleSpeed: 2.1,
+                particleShape: 'triangle',
+                waveSpeed: 0.075
+            },
+            'mysterious-dreamy': {
+                name: 'Surreal',
+                description: 'Reality bends and flows',
+                color1: '#8B5CF6',
+                color2: '#A78BFA',
+                shape: 'star',
+                particleCount: 45,
+                particleSpeed: 0.9,
+                particleShape: 'triangle',
+                waveSpeed: 0.04
+            },
+            'intense-dreamy': {
+                name: 'Passionate',
+                description: 'Fire meets fantasy',
+                color1: '#F43F5E',
+                color2: '#C084FC',
+                shape: 'diamond',
+                particleCount: 75,
+                particleSpeed: 1.9,
+                particleShape: 'square',
+                waveSpeed: 0.07
+            }
         };
 
         // Game State
@@ -1079,6 +1234,10 @@
                 document.getElementById('result-description').textContent = result.description;
 
                 changeBackground(result.color1, result.color2);
+
+                // Apply unique visual effects for this fusion result
+                initParticles(result.particleCount, result.particleSpeed, result.particleShape);
+                currentWaveSpeed = result.waveSpeed;
 
                 // Set dynamic shape style
                 const shapeContainer = document.getElementById('result-shape-container');
