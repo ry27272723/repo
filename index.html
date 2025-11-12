@@ -247,23 +247,118 @@
             box-shadow: 0 15px 40px rgba(255, 255, 255, 0.4);
         }
 
-        .emotion-card.selected {
-            background: rgba(255, 255, 255, 0.3);
-            border-color: white;
-            transform: scale(1.1);
-        }
-
         .emotion-card.disabled {
             opacity: 0.3;
             cursor: not-allowed;
             pointer-events: none;
         }
 
-        .emotion-icon {
-            font-size: 48px;
-            margin-bottom: 15px;
+        /* Emotion Shape */
+        .emotion-shape {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
             position: relative;
             z-index: 1;
+            animation: shapeFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes shapeFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(10deg); }
+        }
+
+        .shape-circle {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.3);
+            border: 3px solid white;
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+
+        .shape-square {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.3);
+            border: 3px solid white;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            animation: shapeRotate 4s linear infinite;
+        }
+
+        @keyframes shapeRotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .shape-triangle {
+            width: 0;
+            height: 0;
+            border-left: 40px solid transparent;
+            border-right: 40px solid transparent;
+            border-bottom: 70px solid rgba(255, 255, 255, 0.3);
+            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.5));
+            animation: shapePulse 2s ease-in-out infinite;
+        }
+
+        @keyframes shapePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .shape-diamond {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.3);
+            border: 3px solid white;
+            transform: rotate(45deg);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            animation: shapeRotate 4s linear infinite reverse;
+        }
+
+        .shape-star {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.3);
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.5));
+            animation: starTwinkle 1.5s ease-in-out infinite;
+        }
+
+        @keyframes starTwinkle {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(0.9); }
+        }
+
+        .shape-hexagon {
+            width: 80px;
+            height: 46px;
+            background: rgba(255, 255, 255, 0.3);
+            position: relative;
+            border-left: 3px solid white;
+            border-right: 3px solid white;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+
+        .shape-hexagon:before,
+        .shape-hexagon:after {
+            content: "";
+            position: absolute;
+            width: 0;
+            border-left: 40px solid transparent;
+            border-right: 40px solid transparent;
+            left: -3px;
+        }
+
+        .shape-hexagon:before {
+            bottom: 100%;
+            border-bottom: 23px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .shape-hexagon:after {
+            top: 100%;
+            border-top: 23px solid rgba(255, 255, 255, 0.3);
         }
 
         .emotion-name {
@@ -315,11 +410,11 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 40px;
+            gap: 60px;
             margin-top: 50px;
         }
 
-        .fusion-emotion {
+        .fusion-shape-container {
             width: 200px;
             height: 200px;
             background: rgba(255, 255, 255, 0.2);
@@ -328,17 +423,16 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 36px;
-            color: white;
             backdrop-filter: blur(10px);
             animation: fusionFloat 2s ease-in-out infinite;
+            box-shadow: 0 0 40px rgba(255, 255, 255, 0.5);
         }
 
-        .fusion-emotion:nth-child(1) {
+        .fusion-shape-container:nth-child(1) {
             animation-delay: 0s;
         }
 
-        .fusion-emotion:nth-child(3) {
+        .fusion-shape-container:nth-child(3) {
             animation-delay: 0.5s;
         }
 
@@ -377,7 +471,7 @@
         .result-title {
             font-size: 56px;
             color: white;
-            margin-bottom: 20px;
+            margin-bottom: 40px;
             text-shadow: 0 0 30px rgba(255, 255, 255, 0.7);
             animation: appear 1s ease;
         }
@@ -401,7 +495,7 @@
             line-height: 1.6;
         }
 
-        .result-shape {
+        .result-shape-container {
             width: 300px;
             height: 300px;
             margin: 0 auto 50px;
@@ -411,9 +505,9 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 72px;
             box-shadow: 0 0 60px rgba(255, 255, 255, 0.5);
             animation: resultFloat 4s ease-in-out infinite;
+            transition: border-radius 1s ease;
         }
 
         @keyframes resultFloat {
@@ -464,8 +558,14 @@
                 padding: 30px 15px;
             }
 
-            .emotion-icon {
-                font-size: 36px;
+            .emotion-shape {
+                width: 60px;
+                height: 60px;
+            }
+
+            .shape-circle, .shape-square, .shape-diamond {
+                width: 60px;
+                height: 60px;
             }
 
             .emotion-name {
@@ -477,12 +577,12 @@
                 gap: 20px;
             }
 
-            .fusion-emotion {
+            .fusion-shape-container {
                 width: 150px;
                 height: 150px;
             }
 
-            .result-shape {
+            .result-shape-container {
                 width: 200px;
                 height: 200px;
             }
@@ -530,27 +630,39 @@
             <div class="selection-hint">Select one to begin your journey</div>
             <div class="emotion-grid" id="emotion-grid-1">
                 <div class="emotion-card" data-emotion="calm" onclick="selectEmotion(1, 'calm')">
-                    <div class="emotion-icon">🌊</div>
+                    <div class="emotion-shape">
+                        <div class="shape-circle"></div>
+                    </div>
                     <div class="emotion-name">Calm</div>
                 </div>
                 <div class="emotion-card" data-emotion="energetic" onclick="selectEmotion(1, 'energetic')">
-                    <div class="emotion-icon">⚡</div>
+                    <div class="emotion-shape">
+                        <div class="shape-square"></div>
+                    </div>
                     <div class="emotion-name">Energetic</div>
                 </div>
                 <div class="emotion-card" data-emotion="peaceful" onclick="selectEmotion(1, 'peaceful')">
-                    <div class="emotion-icon">☮️</div>
+                    <div class="emotion-shape">
+                        <div class="shape-hexagon"></div>
+                    </div>
                     <div class="emotion-name">Peaceful</div>
                 </div>
                 <div class="emotion-card" data-emotion="mysterious" onclick="selectEmotion(1, 'mysterious')">
-                    <div class="emotion-icon">🔮</div>
+                    <div class="emotion-shape">
+                        <div class="shape-triangle"></div>
+                    </div>
                     <div class="emotion-name">Mysterious</div>
                 </div>
                 <div class="emotion-card" data-emotion="intense" onclick="selectEmotion(1, 'intense')">
-                    <div class="emotion-icon">🔥</div>
+                    <div class="emotion-shape">
+                        <div class="shape-diamond"></div>
+                    </div>
                     <div class="emotion-name">Intense</div>
                 </div>
                 <div class="emotion-card" data-emotion="dreamy" onclick="selectEmotion(1, 'dreamy')">
-                    <div class="emotion-icon">✨</div>
+                    <div class="emotion-shape">
+                        <div class="shape-star"></div>
+                    </div>
                     <div class="emotion-name">Dreamy</div>
                 </div>
             </div>
@@ -565,27 +677,39 @@
             <div class="selection-hint">Select another to create fusion</div>
             <div class="emotion-grid" id="emotion-grid-2">
                 <div class="emotion-card" data-emotion="calm" onclick="selectEmotion(2, 'calm')">
-                    <div class="emotion-icon">🌊</div>
+                    <div class="emotion-shape">
+                        <div class="shape-circle"></div>
+                    </div>
                     <div class="emotion-name">Calm</div>
                 </div>
                 <div class="emotion-card" data-emotion="energetic" onclick="selectEmotion(2, 'energetic')">
-                    <div class="emotion-icon">⚡</div>
+                    <div class="emotion-shape">
+                        <div class="shape-square"></div>
+                    </div>
                     <div class="emotion-name">Energetic</div>
                 </div>
                 <div class="emotion-card" data-emotion="peaceful" onclick="selectEmotion(2, 'peaceful')">
-                    <div class="emotion-icon">☮️</div>
+                    <div class="emotion-shape">
+                        <div class="shape-hexagon"></div>
+                    </div>
                     <div class="emotion-name">Peaceful</div>
                 </div>
                 <div class="emotion-card" data-emotion="mysterious" onclick="selectEmotion(2, 'mysterious')">
-                    <div class="emotion-icon">🔮</div>
+                    <div class="emotion-shape">
+                        <div class="shape-triangle"></div>
+                    </div>
                     <div class="emotion-name">Mysterious</div>
                 </div>
                 <div class="emotion-card" data-emotion="intense" onclick="selectEmotion(2, 'intense')">
-                    <div class="emotion-icon">🔥</div>
+                    <div class="emotion-shape">
+                        <div class="shape-diamond"></div>
+                    </div>
                     <div class="emotion-name">Intense</div>
                 </div>
                 <div class="emotion-card" data-emotion="dreamy" onclick="selectEmotion(2, 'dreamy')">
-                    <div class="emotion-icon">✨</div>
+                    <div class="emotion-shape">
+                        <div class="shape-star"></div>
+                    </div>
                     <div class="emotion-name">Dreamy</div>
                 </div>
             </div>
@@ -597,9 +721,13 @@
         <div class="fusion-content">
             <div class="selection-title">Fusion in Progress...</div>
             <div class="fusion-container">
-                <div class="fusion-emotion" id="fusion-emotion-1"></div>
+                <div class="fusion-shape-container">
+                    <div id="fusion-shape-1"></div>
+                </div>
                 <div class="fusion-symbol">+</div>
-                <div class="fusion-emotion" id="fusion-emotion-2"></div>
+                <div class="fusion-shape-container">
+                    <div id="fusion-shape-2"></div>
+                </div>
             </div>
             <div class="fusion-text">Creating something new...</div>
         </div>
@@ -609,7 +737,9 @@
     <div class="page" id="page-result">
         <div class="result-content">
             <div class="result-title" id="result-title">RESULT</div>
-            <div class="result-shape" id="result-shape">💫</div>
+            <div class="result-shape-container" id="result-shape-container">
+                <div id="result-shape-inner"></div>
+            </div>
             <div class="result-description" id="result-description">
                 A unique combination of emotions creates a new experience
             </div>
@@ -623,37 +753,105 @@
     <script>
         // Emotion Configurations
         const emotions = {
-            calm: { icon: '🌊', color1: '#667eea', color2: '#764ba2', particleCount: 30, particleSpeed: 0.5 },
-            energetic: { icon: '⚡', color1: '#f093fb', color2: '#f5576c', particleCount: 80, particleSpeed: 2 },
-            peaceful: { icon: '☮️', color1: '#4facfe', color2: '#00f2fe', particleCount: 20, particleSpeed: 0.3 },
-            mysterious: { icon: '🔮', color1: '#43e97b', color2: '#38f9d7', particleCount: 50, particleSpeed: 1 },
-            intense: { icon: '🔥', color1: '#fa709a', color2: '#fee140', particleCount: 100, particleSpeed: 3 },
-            dreamy: { icon: '✨', color1: '#a8edea', color2: '#fed6e3', particleCount: 40, particleSpeed: 0.8 }
+            calm: {
+                name: 'Calm',
+                shape: 'circle',
+                color1: '#667eea',
+                color2: '#764ba2',
+                particleCount: 30,
+                particleSpeed: 0.5,
+                particleShape: 'circle',
+                waveSpeed: 0.02
+            },
+            energetic: {
+                name: 'Energetic',
+                shape: 'square',
+                color1: '#f093fb',
+                color2: '#f5576c',
+                particleCount: 80,
+                particleSpeed: 2,
+                particleShape: 'square',
+                waveSpeed: 0.08
+            },
+            peaceful: {
+                name: 'Peaceful',
+                shape: 'hexagon',
+                color1: '#4facfe',
+                color2: '#00f2fe',
+                particleCount: 20,
+                particleSpeed: 0.3,
+                particleShape: 'circle',
+                waveSpeed: 0.01
+            },
+            mysterious: {
+                name: 'Mysterious',
+                shape: 'triangle',
+                color1: '#43e97b',
+                color2: '#38f9d7',
+                particleCount: 50,
+                particleSpeed: 1,
+                particleShape: 'triangle',
+                waveSpeed: 0.05
+            },
+            intense: {
+                name: 'Intense',
+                shape: 'diamond',
+                color1: '#fa709a',
+                color2: '#fee140',
+                particleCount: 100,
+                particleSpeed: 3,
+                particleShape: 'square',
+                waveSpeed: 0.1
+            },
+            dreamy: {
+                name: 'Dreamy',
+                shape: 'star',
+                color1: '#a8edea',
+                color2: '#fed6e3',
+                particleCount: 40,
+                particleSpeed: 0.8,
+                particleShape: 'circle',
+                waveSpeed: 0.03
+            }
+        };
+
+        // Shape HTML Templates
+        const shapeTemplates = {
+            circle: '<div class="shape-circle" style="width: 60px; height: 60px;"></div>',
+            square: '<div class="shape-square" style="width: 60px; height: 60px;"></div>',
+            triangle: '<div class="shape-triangle"></div>',
+            diamond: '<div class="shape-diamond" style="width: 60px; height: 60px;"></div>',
+            star: '<div class="shape-star" style="width: 60px; height: 60px;"></div>',
+            hexagon: '<div class="shape-hexagon"></div>'
         };
 
         // Fusion Results
         const fusionResults = {
-            'calm-energetic': { name: 'Vibrant', icon: '💫', description: 'A balanced energy that flows with purpose', color1: '#8B5CF6', color2: '#EC4899' },
-            'calm-peaceful': { name: 'Tranquil', icon: '🌸', description: 'Perfect harmony and inner peace', color1: '#06B6D4', color2: '#8B5CF6' },
-            'calm-mysterious': { name: 'Enigmatic', icon: '🌙', description: 'Quiet depth with hidden wonders', color1: '#3B82F6', color2: '#10B981' },
-            'calm-intense': { name: 'Focused', icon: '🎯', description: 'Controlled power and determination', color1: '#EF4444', color2: '#3B82F6' },
-            'calm-dreamy': { name: 'Meditative', icon: '🧘', description: 'Floating in peaceful consciousness', color1: '#A78BFA', color2: '#93C5FD' },
-            'energetic-peaceful': { name: 'Joyful', icon: '😊', description: 'Happiness in its purest form', color1: '#FBBF24', color2: '#34D399' },
-            'energetic-mysterious': { name: 'Electric', icon: '⚡', description: 'Unpredictable and exciting', color1: '#8B5CF6', color2: '#F59E0B' },
-            'energetic-intense': { name: 'Explosive', icon: '💥', description: 'Raw power unleashed', color1: '#EF4444', color2: '#F59E0B' },
-            'energetic-dreamy': { name: 'Euphoric', icon: '🎆', description: 'Soaring above the clouds', color1: '#EC4899', color2: '#A78BFA' },
-            'peaceful-mysterious': { name: 'Mystical', icon: '🕊️', description: 'Serenity with a touch of magic', color1: '#06B6D4', color2: '#10B981' },
-            'peaceful-intense': { name: 'Resilient', icon: '🛡️', description: 'Strength through calmness', color1: '#0EA5E9', color2: '#EF4444' },
-            'peaceful-dreamy': { name: 'Blissful', icon: '☁️', description: 'Floating in perfect contentment', color1: '#93C5FD', color2: '#FCA5A5' },
-            'mysterious-intense': { name: 'Dramatic', icon: '🎭', description: 'Powerful and captivating', color1: '#7C3AED', color2: '#DC2626' },
-            'mysterious-dreamy': { name: 'Surreal', icon: '🌌', description: 'Reality bends and flows', color1: '#8B5CF6', color2: '#A78BFA' },
-            'intense-dreamy': { name: 'Passionate', icon: '❤️', description: 'Fire meets fantasy', color1: '#F43F5E', color2: '#C084FC' }
+            'calm-energetic': { name: 'Vibrant', description: 'A balanced energy that flows with purpose', color1: '#8B5CF6', color2: '#EC4899', shape: 'diamond' },
+            'calm-peaceful': { name: 'Tranquil', description: 'Perfect harmony and inner peace', color1: '#06B6D4', color2: '#8B5CF6', shape: 'hexagon' },
+            'calm-mysterious': { name: 'Enigmatic', description: 'Quiet depth with hidden wonders', color1: '#3B82F6', color2: '#10B981', shape: 'triangle' },
+            'calm-intense': { name: 'Focused', description: 'Controlled power and determination', color1: '#EF4444', color2: '#3B82F6', shape: 'diamond' },
+            'calm-dreamy': { name: 'Meditative', description: 'Floating in peaceful consciousness', color1: '#A78BFA', color2: '#93C5FD', shape: 'circle' },
+            'energetic-peaceful': { name: 'Joyful', description: 'Happiness in its purest form', color1: '#FBBF24', color2: '#34D399', shape: 'star' },
+            'energetic-mysterious': { name: 'Electric', description: 'Unpredictable and exciting', color1: '#8B5CF6', color2: '#F59E0B', shape: 'triangle' },
+            'energetic-intense': { name: 'Explosive', description: 'Raw power unleashed', color1: '#EF4444', color2: '#F59E0B', shape: 'diamond' },
+            'energetic-dreamy': { name: 'Euphoric', description: 'Soaring above the clouds', color1: '#EC4899', color2: '#A78BFA', shape: 'star' },
+            'peaceful-mysterious': { name: 'Mystical', description: 'Serenity with a touch of magic', color1: '#06B6D4', color2: '#10B981', shape: 'hexagon' },
+            'peaceful-intense': { name: 'Resilient', description: 'Strength through calmness', color1: '#0EA5E9', color2: '#EF4444', shape: 'diamond' },
+            'peaceful-dreamy': { name: 'Blissful', description: 'Floating in perfect contentment', color1: '#93C5FD', color2: '#FCA5A5', shape: 'circle' },
+            'mysterious-intense': { name: 'Dramatic', description: 'Powerful and captivating', color1: '#7C3AED', color2: '#DC2626', shape: 'triangle' },
+            'mysterious-dreamy': { name: 'Surreal', description: 'Reality bends and flows', color1: '#8B5CF6', color2: '#A78BFA', shape: 'star' },
+            'intense-dreamy': { name: 'Passionate', description: 'Fire meets fantasy', color1: '#F43F5E', color2: '#C084FC', shape: 'diamond' }
         };
 
         // Game State
         let currentStep = 0;
         let selectedEmotions = [];
         let particles = [];
+        let waveOffset = 0;
+        let currentParticleSpeed = 0.5;
+        let currentWaveSpeed = 0.02;
+        let currentParticleShape = 'circle';
 
         // Canvas Setup
         const canvas = document.getElementById('bg-canvas');
@@ -668,46 +866,105 @@
 
         // Particle Class
         class Particle {
-            constructor(particleCount, particleSpeed) {
+            constructor(particleCount, particleSpeed, particleShape) {
                 this.x = Math.random() * width;
                 this.y = Math.random() * height;
-                this.size = Math.random() * 3 + 1;
+                this.size = Math.random() * 4 + 2;
                 this.speedX = (Math.random() - 0.5) * particleSpeed;
                 this.speedY = (Math.random() - 0.5) * particleSpeed;
                 this.opacity = Math.random() * 0.5 + 0.3;
+                this.shape = particleShape;
+                this.rotation = Math.random() * Math.PI * 2;
+                this.rotationSpeed = (Math.random() - 0.5) * 0.02;
             }
 
             update() {
                 this.x += this.speedX;
                 this.y += this.speedY;
+                this.rotation += this.rotationSpeed;
 
                 if (this.x < 0 || this.x > width) this.speedX *= -1;
                 if (this.y < 0 || this.y > height) this.speedY *= -1;
             }
 
             draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation);
                 ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
+
+                if (this.shape === 'circle') {
+                    ctx.beginPath();
+                    ctx.arc(0, 0, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                } else if (this.shape === 'square') {
+                    ctx.fillRect(-this.size, -this.size, this.size * 2, this.size * 2);
+                } else if (this.shape === 'triangle') {
+                    ctx.beginPath();
+                    ctx.moveTo(0, -this.size);
+                    ctx.lineTo(-this.size, this.size);
+                    ctx.lineTo(this.size, this.size);
+                    ctx.closePath();
+                    ctx.fill();
+                }
+
+                ctx.restore();
             }
         }
 
         // Initialize Particles
-        function initParticles(count, speed) {
+        function initParticles(count, speed, shape) {
             particles = [];
+            currentParticleSpeed = speed;
+            currentParticleShape = shape;
             for (let i = 0; i < count; i++) {
-                particles.push(new Particle(count, speed));
+                particles.push(new Particle(count, speed, shape));
             }
+        }
+
+        // Draw Wave Effect
+        function drawWave() {
+            waveOffset += currentWaveSpeed;
+
+            ctx.beginPath();
+            ctx.moveTo(0, height / 2);
+
+            for (let x = 0; x < width; x++) {
+                const y = height / 2 + Math.sin(x * 0.01 + waveOffset) * 50;
+                ctx.lineTo(x, y);
+            }
+
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            // Second wave
+            ctx.beginPath();
+            ctx.moveTo(0, height / 2 + 100);
+
+            for (let x = 0; x < width; x++) {
+                const y = height / 2 + 100 + Math.sin(x * 0.015 + waveOffset * 1.5) * 30;
+                ctx.lineTo(x, y);
+            }
+
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+            ctx.lineWidth = 2;
+            ctx.stroke();
         }
 
         // Animation Loop
         function animate() {
             ctx.clearRect(0, 0, width, height);
+
+            // Draw waves
+            drawWave();
+
+            // Update and draw particles
             particles.forEach(particle => {
                 particle.update();
                 particle.draw();
             });
+
             requestAnimationFrame(animate);
         }
 
@@ -754,7 +1011,8 @@
                 selectedEmotions[0] = emotion;
                 const config = emotions[emotion];
                 changeBackground(config.color1, config.color2);
-                initParticles(config.particleCount, config.particleSpeed);
+                initParticles(config.particleCount, config.particleSpeed, config.particleShape);
+                currentWaveSpeed = config.waveSpeed;
 
                 // Disable the selected emotion in step 2
                 document.querySelectorAll('#emotion-grid-2 .emotion-card').forEach(card => {
@@ -767,7 +1025,7 @@
 
                 // Show selected emotion
                 document.getElementById('selected-display').innerHTML = `
-                    <div class="selected-emotion-badge">${emotions[emotion].icon} ${emotion.toUpperCase()}</div>
+                    <div class="selected-emotion-badge">${config.name.toUpperCase()}</div>
                 `;
 
                 setTimeout(() => goToPage(2), 500);
@@ -785,17 +1043,21 @@
             const emotion1 = selectedEmotions[0];
             const emotion2 = selectedEmotions[1];
 
-            document.getElementById('fusion-emotion-1').textContent = emotions[emotion1].icon;
-            document.getElementById('fusion-emotion-2').textContent = emotions[emotion2].icon;
-
-            // Mix colors
             const config1 = emotions[emotion1];
             const config2 = emotions[emotion2];
+
+            document.getElementById('fusion-shape-1').innerHTML = shapeTemplates[config1.shape];
+            document.getElementById('fusion-shape-2').innerHTML = shapeTemplates[config2.shape];
 
             // Average particle settings
             const avgCount = Math.floor((config1.particleCount + config2.particleCount) / 2);
             const avgSpeed = (config1.particleSpeed + config2.particleSpeed) / 2;
-            initParticles(avgCount, avgSpeed);
+            const avgWaveSpeed = (config1.waveSpeed + config2.waveSpeed) / 2;
+            currentWaveSpeed = avgWaveSpeed;
+
+            // Mix particle shapes
+            const mixedShape = Math.random() > 0.5 ? config1.particleShape : config2.particleShape;
+            initParticles(avgCount, avgSpeed, mixedShape);
 
             setTimeout(() => {
                 goToPage(4);
@@ -813,20 +1075,26 @@
 
             if (result) {
                 document.getElementById('result-title').textContent = result.name.toUpperCase();
-                document.getElementById('result-shape').textContent = result.icon;
+                document.getElementById('result-shape-inner').innerHTML = shapeTemplates[result.shape].replace('60px', '120px');
                 document.getElementById('result-description').textContent = result.description;
 
                 changeBackground(result.color1, result.color2);
 
                 // Set dynamic shape style
-                const shape = document.getElementById('result-shape');
-                shape.style.borderRadius = '50%';
+                const shapeContainer = document.getElementById('result-shape-container');
+                shapeContainer.style.borderRadius = '50%';
                 setTimeout(() => {
-                    shape.style.borderRadius = '30% 70% 70% 30% / 30% 30% 70% 70%';
+                    shapeContainer.style.borderRadius = '30% 70% 70% 30% / 30% 30% 70% 70%';
                 }, 500);
                 setTimeout(() => {
-                    shape.style.borderRadius = '50%';
+                    shapeContainer.style.borderRadius = '50%';
                 }, 1500);
+                setTimeout(() => {
+                    shapeContainer.style.borderRadius = '20px';
+                }, 2500);
+                setTimeout(() => {
+                    shapeContainer.style.borderRadius = '50%';
+                }, 3500);
             }
         }
 
@@ -834,9 +1102,27 @@
         function restart() {
             selectedEmotions = [];
             currentStep = 0;
-            goToPage(0);
+
+            // Reset all disabled states
+            document.querySelectorAll('.emotion-card').forEach(card => {
+                card.classList.remove('disabled');
+            });
+
+            // Reset pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active', 'exit-left');
+            });
+
+            // Activate welcome page
+            document.getElementById('page-welcome').classList.add('active');
+
+            // Reset background and particles
             changeBackground('#667eea', '#764ba2');
-            initParticles(30, 0.5);
+            currentWaveSpeed = 0.02;
+            initParticles(30, 0.5, 'circle');
+
+            // Reset progress
+            updateProgress();
         }
 
         // Audio Control
@@ -873,7 +1159,7 @@
         });
 
         // Initialize
-        initParticles(30, 0.5);
+        initParticles(30, 0.5, 'circle');
         animate();
     </script>
 </body>
