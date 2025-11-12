@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive States</title>
+    <title>Emotional Journey</title>
     <style>
         * {
             margin: 0;
@@ -17,6 +17,7 @@
             height: 100vh;
             transition: background 1.5s ease;
             position: relative;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
 
         /* Background Canvas */
@@ -29,138 +30,200 @@
             z-index: 1;
         }
 
-        /* Main Container */
-        .container {
-            position: relative;
-            z-index: 2;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            padding: 20px;
-        }
-
         /* Audio Control */
         .audio-control {
             position: fixed;
-            top: 30px;
-            right: 30px;
+            top: 20px;
+            right: 20px;
             z-index: 100;
             background: rgba(0, 0, 0, 0.5);
-            padding: 15px 20px;
+            padding: 12px 18px;
             border-radius: 50px;
             backdrop-filter: blur(10px);
             border: 2px solid rgba(255, 255, 255, 0.2);
             display: flex;
             align-items: center;
-            gap: 15px;
-        }
-
-        .audio-control label {
-            color: white;
-            font-size: 14px;
-            cursor: pointer;
-        }
-
-        #bgm-upload {
-            display: none;
+            gap: 12px;
         }
 
         .upload-btn {
             background: rgba(255, 255, 255, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.3);
             color: white;
-            padding: 8px 15px;
+            padding: 6px 12px;
             border-radius: 20px;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-size: 12px;
+            font-size: 11px;
         }
 
         .upload-btn:hover {
             background: rgba(255, 255, 255, 0.3);
-            transform: scale(1.05);
+        }
+
+        #bgm-upload {
+            display: none;
         }
 
         #music-toggle {
             background: none;
             border: none;
             color: white;
-            font-size: 24px;
+            font-size: 20px;
             cursor: pointer;
             transition: all 0.3s ease;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
         #music-toggle:hover {
             transform: scale(1.2);
         }
 
-        /* Central Display */
-        #central-shape {
-            width: 300px;
-            height: 300px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
+        /* Progress Bar */
+        .progress-bar {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 1s ease;
-            box-shadow: 0 0 60px rgba(255, 255, 255, 0.3);
-            animation: float 6s ease-in-out infinite;
+            gap: 15px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 15px 30px;
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
         }
 
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0) rotate(0deg);
-            }
-            50% {
-                transform: translateY(-30px) rotate(180deg);
-            }
-        }
-
-        #state-text {
-            font-size: 32px;
-            color: white;
-            text-transform: uppercase;
-            letter-spacing: 4px;
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        .progress-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
             transition: all 0.5s ease;
         }
 
-        /* State Buttons */
-        .state-controls {
-            margin-top: 60px;
+        .progress-dot.active {
+            background: white;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+            transform: scale(1.3);
+        }
+
+        /* Page Container */
+        .page {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.8s ease, transform 0.8s ease;
+            transform: translateX(100px);
+            z-index: 2;
+            padding: 20px;
+        }
+
+        .page.active {
+            opacity: 1;
+            pointer-events: all;
+            transform: translateX(0);
+        }
+
+        .page.exit-left {
+            transform: translateX(-100px);
+            opacity: 0;
+        }
+
+        /* Welcome Page */
+        .welcome-content {
+            text-align: center;
+        }
+
+        .welcome-title {
+            font-size: 64px;
+            color: white;
+            font-weight: bold;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+            margin-bottom: 20px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .welcome-subtitle {
+            font-size: 24px;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 50px;
+            letter-spacing: 2px;
+        }
+
+        .start-btn {
+            padding: 20px 60px;
+            font-size: 24px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 3px solid white;
+            color: white;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .start-btn:hover {
+            background: white;
+            color: #667eea;
+            transform: scale(1.1);
+            box-shadow: 0 10px 40px rgba(255, 255, 255, 0.5);
+        }
+
+        /* Selection Page */
+        .selection-content {
+            text-align: center;
+            max-width: 900px;
+        }
+
+        .selection-title {
+            font-size: 48px;
+            color: white;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+
+        .selection-hint {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 50px;
+        }
+
+        .emotion-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 20px;
-            max-width: 600px;
+            margin-bottom: 30px;
         }
 
-        .state-btn {
-            padding: 20px 30px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
+        .emotion-card {
+            padding: 40px 20px;
             background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            color: white;
-            font-size: 16px;
-            border-radius: 15px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 2px;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(10px);
             position: relative;
             overflow: hidden;
         }
 
-        .state-btn::before {
+        .emotion-card::before {
             content: '';
             position: absolute;
             top: 50%;
@@ -170,153 +233,428 @@
             background: rgba(255, 255, 255, 0.2);
             border-radius: 50%;
             transform: translate(-50%, -50%);
-            transition: width 0.5s, height 0.5s;
+            transition: width 0.6s, height 0.6s;
         }
 
-        .state-btn:hover::before {
-            width: 300px;
-            height: 300px;
+        .emotion-card:hover::before {
+            width: 400px;
+            height: 400px;
         }
 
-        .state-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.3);
-            border-color: rgba(255, 255, 255, 0.6);
+        .emotion-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            border-color: white;
+            box-shadow: 0 15px 40px rgba(255, 255, 255, 0.4);
         }
 
-        .state-btn span {
+        .emotion-card.selected {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: white;
+            transform: scale(1.1);
+        }
+
+        .emotion-card.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        .emotion-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
             position: relative;
             z-index: 1;
         }
 
-        /* Current State Info */
-        #state-info {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.5);
-            padding: 15px 30px;
-            border-radius: 30px;
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.2);
+        .emotion-name {
+            font-size: 24px;
             color: white;
-            font-size: 14px;
-            text-align: center;
-            min-width: 300px;
-        }
-
-        /* Particles */
-        .particle-layer {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
             z-index: 1;
         }
 
-        .particle {
-            position: absolute;
+        /* Selected Emotions Display */
+        .selected-emotions {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .selected-emotion-badge {
+            padding: 15px 30px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid white;
+            border-radius: 30px;
+            color: white;
+            font-size: 20px;
+            backdrop-filter: blur(10px);
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Fusion Page */
+        .fusion-content {
+            text-align: center;
+        }
+
+        .fusion-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 50px;
+        }
+
+        .fusion-emotion {
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 3px solid white;
             border-radius: 50%;
-            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            color: white;
+            backdrop-filter: blur(10px);
+            animation: fusionFloat 2s ease-in-out infinite;
+        }
+
+        .fusion-emotion:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .fusion-emotion:nth-child(3) {
+            animation-delay: 0.5s;
+        }
+
+        @keyframes fusionFloat {
+            0%, 100% {
+                transform: translateY(0) scale(1);
+            }
+            50% {
+                transform: translateY(-20px) scale(1.1);
+            }
+        }
+
+        .fusion-symbol {
+            font-size: 48px;
+            color: white;
+            animation: rotate 2s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .fusion-text {
+            font-size: 36px;
+            color: white;
+            margin-top: 50px;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+
+        /* Result Page */
+        .result-content {
+            text-align: center;
+        }
+
+        .result-title {
+            font-size: 56px;
+            color: white;
+            margin-bottom: 20px;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.7);
+            animation: appear 1s ease;
+        }
+
+        @keyframes appear {
+            from {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .result-description {
+            font-size: 24px;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 600px;
+            margin: 0 auto 50px;
+            line-height: 1.6;
+        }
+
+        .result-shape {
+            width: 300px;
+            height: 300px;
+            margin: 0 auto 50px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 4px solid white;
+            backdrop-filter: blur(20px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 72px;
+            box-shadow: 0 0 60px rgba(255, 255, 255, 0.5);
+            animation: resultFloat 4s ease-in-out infinite;
+        }
+
+        @keyframes resultFloat {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-30px) rotate(180deg);
+            }
+        }
+
+        .restart-btn {
+            padding: 15px 40px;
+            font-size: 18px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid white;
+            color: white;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .restart-btn:hover {
+            background: white;
+            color: #667eea;
+            transform: scale(1.1);
         }
 
         /* Responsive */
         @media (max-width: 768px) {
-            .state-controls {
+            .welcome-title {
+                font-size: 42px;
+            }
+
+            .selection-title {
+                font-size: 32px;
+            }
+
+            .emotion-grid {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 15px;
             }
 
-            #central-shape {
+            .emotion-card {
+                padding: 30px 15px;
+            }
+
+            .emotion-icon {
+                font-size: 36px;
+            }
+
+            .emotion-name {
+                font-size: 18px;
+            }
+
+            .fusion-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .fusion-emotion {
+                width: 150px;
+                height: 150px;
+            }
+
+            .result-shape {
                 width: 200px;
                 height: 200px;
             }
 
-            #state-text {
-                font-size: 24px;
+            .progress-bar {
+                padding: 10px 20px;
             }
-
-            .state-btn {
-                padding: 15px 20px;
-                font-size: 14px;
-            }
-
-            .audio-control {
-                top: 15px;
-                right: 15px;
-                padding: 10px 15px;
-            }
-        }
-
-        /* State-specific styles */
-        .calm-state {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-
-        .energetic-state {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-        }
-
-        .peaceful-state {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-        }
-
-        .mysterious-state {
-            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-        }
-
-        .intense-state {
-            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
-        }
-
-        .dreamy-state {
-            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
         }
     </style>
 </head>
-<body class="calm-state">
+<body>
     <!-- Audio Control -->
     <div class="audio-control">
         <label for="bgm-upload" class="upload-btn">Upload BGM</label>
         <input type="file" id="bgm-upload" accept="audio/*">
         <button id="music-toggle" title="Play/Pause">▶</button>
-        <span id="music-status" style="color: white; font-size: 12px;">No music</span>
+        <span id="music-status" style="color: white; font-size: 11px;">No music</span>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar">
+        <div class="progress-dot active" data-step="0"></div>
+        <div class="progress-dot" data-step="1"></div>
+        <div class="progress-dot" data-step="2"></div>
+        <div class="progress-dot" data-step="3"></div>
+        <div class="progress-dot" data-step="4"></div>
     </div>
 
     <!-- Background Canvas -->
     <canvas id="bg-canvas"></canvas>
 
-    <!-- Particle Layer -->
-    <div class="particle-layer" id="particle-container"></div>
-
-    <!-- Main Container -->
-    <div class="container">
-        <div id="central-shape">
-            <div id="state-text">Calm</div>
-        </div>
-
-        <div class="state-controls">
-            <button class="state-btn" data-state="calm"><span>Calm</span></button>
-            <button class="state-btn" data-state="energetic"><span>Energetic</span></button>
-            <button class="state-btn" data-state="peaceful"><span>Peaceful</span></button>
-            <button class="state-btn" data-state="mysterious"><span>Mysterious</span></button>
-            <button class="state-btn" data-state="intense"><span>Intense</span></button>
-            <button class="state-btn" data-state="dreamy"><span>Dreamy</span></button>
+    <!-- Welcome Page -->
+    <div class="page active" id="page-welcome">
+        <div class="welcome-content">
+            <div class="welcome-title">EMOTIONAL JOURNEY</div>
+            <div class="welcome-subtitle">Discover what happens when emotions collide</div>
+            <button class="start-btn" onclick="goToPage(1)">BEGIN</button>
         </div>
     </div>
 
-    <!-- State Info -->
-    <div id="state-info">
-        Click to experience different states
+    <!-- Selection Page 1 -->
+    <div class="page" id="page-select1">
+        <div class="selection-content">
+            <div class="selection-title">Choose Your First Emotion</div>
+            <div class="selection-hint">Select one to begin your journey</div>
+            <div class="emotion-grid" id="emotion-grid-1">
+                <div class="emotion-card" data-emotion="calm" onclick="selectEmotion(1, 'calm')">
+                    <div class="emotion-icon">🌊</div>
+                    <div class="emotion-name">Calm</div>
+                </div>
+                <div class="emotion-card" data-emotion="energetic" onclick="selectEmotion(1, 'energetic')">
+                    <div class="emotion-icon">⚡</div>
+                    <div class="emotion-name">Energetic</div>
+                </div>
+                <div class="emotion-card" data-emotion="peaceful" onclick="selectEmotion(1, 'peaceful')">
+                    <div class="emotion-icon">☮️</div>
+                    <div class="emotion-name">Peaceful</div>
+                </div>
+                <div class="emotion-card" data-emotion="mysterious" onclick="selectEmotion(1, 'mysterious')">
+                    <div class="emotion-icon">🔮</div>
+                    <div class="emotion-name">Mysterious</div>
+                </div>
+                <div class="emotion-card" data-emotion="intense" onclick="selectEmotion(1, 'intense')">
+                    <div class="emotion-icon">🔥</div>
+                    <div class="emotion-name">Intense</div>
+                </div>
+                <div class="emotion-card" data-emotion="dreamy" onclick="selectEmotion(1, 'dreamy')">
+                    <div class="emotion-icon">✨</div>
+                    <div class="emotion-name">Dreamy</div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- Audio Element (Hidden) -->
+    <!-- Selection Page 2 -->
+    <div class="page" id="page-select2">
+        <div class="selection-content">
+            <div class="selection-title">Choose Your Second Emotion</div>
+            <div class="selected-emotions" id="selected-display"></div>
+            <div class="selection-hint">Select another to create fusion</div>
+            <div class="emotion-grid" id="emotion-grid-2">
+                <div class="emotion-card" data-emotion="calm" onclick="selectEmotion(2, 'calm')">
+                    <div class="emotion-icon">🌊</div>
+                    <div class="emotion-name">Calm</div>
+                </div>
+                <div class="emotion-card" data-emotion="energetic" onclick="selectEmotion(2, 'energetic')">
+                    <div class="emotion-icon">⚡</div>
+                    <div class="emotion-name">Energetic</div>
+                </div>
+                <div class="emotion-card" data-emotion="peaceful" onclick="selectEmotion(2, 'peaceful')">
+                    <div class="emotion-icon">☮️</div>
+                    <div class="emotion-name">Peaceful</div>
+                </div>
+                <div class="emotion-card" data-emotion="mysterious" onclick="selectEmotion(2, 'mysterious')">
+                    <div class="emotion-icon">🔮</div>
+                    <div class="emotion-name">Mysterious</div>
+                </div>
+                <div class="emotion-card" data-emotion="intense" onclick="selectEmotion(2, 'intense')">
+                    <div class="emotion-icon">🔥</div>
+                    <div class="emotion-name">Intense</div>
+                </div>
+                <div class="emotion-card" data-emotion="dreamy" onclick="selectEmotion(2, 'dreamy')">
+                    <div class="emotion-icon">✨</div>
+                    <div class="emotion-name">Dreamy</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fusion Page -->
+    <div class="page" id="page-fusion">
+        <div class="fusion-content">
+            <div class="selection-title">Fusion in Progress...</div>
+            <div class="fusion-container">
+                <div class="fusion-emotion" id="fusion-emotion-1"></div>
+                <div class="fusion-symbol">+</div>
+                <div class="fusion-emotion" id="fusion-emotion-2"></div>
+            </div>
+            <div class="fusion-text">Creating something new...</div>
+        </div>
+    </div>
+
+    <!-- Result Page -->
+    <div class="page" id="page-result">
+        <div class="result-content">
+            <div class="result-title" id="result-title">RESULT</div>
+            <div class="result-shape" id="result-shape">💫</div>
+            <div class="result-description" id="result-description">
+                A unique combination of emotions creates a new experience
+            </div>
+            <button class="restart-btn" onclick="restart()">Try Again</button>
+        </div>
+    </div>
+
+    <!-- Audio Element -->
     <audio id="bgm-audio" loop></audio>
 
     <script>
+        // Emotion Configurations
+        const emotions = {
+            calm: { icon: '🌊', color1: '#667eea', color2: '#764ba2', particleCount: 30, particleSpeed: 0.5 },
+            energetic: { icon: '⚡', color1: '#f093fb', color2: '#f5576c', particleCount: 80, particleSpeed: 2 },
+            peaceful: { icon: '☮️', color1: '#4facfe', color2: '#00f2fe', particleCount: 20, particleSpeed: 0.3 },
+            mysterious: { icon: '🔮', color1: '#43e97b', color2: '#38f9d7', particleCount: 50, particleSpeed: 1 },
+            intense: { icon: '🔥', color1: '#fa709a', color2: '#fee140', particleCount: 100, particleSpeed: 3 },
+            dreamy: { icon: '✨', color1: '#a8edea', color2: '#fed6e3', particleCount: 40, particleSpeed: 0.8 }
+        };
+
+        // Fusion Results
+        const fusionResults = {
+            'calm-energetic': { name: 'Vibrant', icon: '💫', description: 'A balanced energy that flows with purpose', color1: '#8B5CF6', color2: '#EC4899' },
+            'calm-peaceful': { name: 'Tranquil', icon: '🌸', description: 'Perfect harmony and inner peace', color1: '#06B6D4', color2: '#8B5CF6' },
+            'calm-mysterious': { name: 'Enigmatic', icon: '🌙', description: 'Quiet depth with hidden wonders', color1: '#3B82F6', color2: '#10B981' },
+            'calm-intense': { name: 'Focused', icon: '🎯', description: 'Controlled power and determination', color1: '#EF4444', color2: '#3B82F6' },
+            'calm-dreamy': { name: 'Meditative', icon: '🧘', description: 'Floating in peaceful consciousness', color1: '#A78BFA', color2: '#93C5FD' },
+            'energetic-peaceful': { name: 'Joyful', icon: '😊', description: 'Happiness in its purest form', color1: '#FBBF24', color2: '#34D399' },
+            'energetic-mysterious': { name: 'Electric', icon: '⚡', description: 'Unpredictable and exciting', color1: '#8B5CF6', color2: '#F59E0B' },
+            'energetic-intense': { name: 'Explosive', icon: '💥', description: 'Raw power unleashed', color1: '#EF4444', color2: '#F59E0B' },
+            'energetic-dreamy': { name: 'Euphoric', icon: '🎆', description: 'Soaring above the clouds', color1: '#EC4899', color2: '#A78BFA' },
+            'peaceful-mysterious': { name: 'Mystical', icon: '🕊️', description: 'Serenity with a touch of magic', color1: '#06B6D4', color2: '#10B981' },
+            'peaceful-intense': { name: 'Resilient', icon: '🛡️', description: 'Strength through calmness', color1: '#0EA5E9', color2: '#EF4444' },
+            'peaceful-dreamy': { name: 'Blissful', icon: '☁️', description: 'Floating in perfect contentment', color1: '#93C5FD', color2: '#FCA5A5' },
+            'mysterious-intense': { name: 'Dramatic', icon: '🎭', description: 'Powerful and captivating', color1: '#7C3AED', color2: '#DC2626' },
+            'mysterious-dreamy': { name: 'Surreal', icon: '🌌', description: 'Reality bends and flows', color1: '#8B5CF6', color2: '#A78BFA' },
+            'intense-dreamy': { name: 'Passionate', icon: '❤️', description: 'Fire meets fantasy', color1: '#F43F5E', color2: '#C084FC' }
+        };
+
+        // Game State
+        let currentStep = 0;
+        let selectedEmotions = [];
+        let particles = [];
+
         // Canvas Setup
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
@@ -328,79 +666,15 @@
             height = canvas.height = window.innerHeight;
         });
 
-        // State Configuration
-        const stateConfigs = {
-            calm: {
-                color1: '#667eea',
-                color2: '#764ba2',
-                particleColor: 'rgba(255, 255, 255, 0.6)',
-                particleCount: 30,
-                particleSpeed: 0.5,
-                shapeStyle: 'circle',
-                waveSpeed: 0.02
-            },
-            energetic: {
-                color1: '#f093fb',
-                color2: '#f5576c',
-                particleColor: 'rgba(255, 255, 100, 0.8)',
-                particleCount: 80,
-                particleSpeed: 2,
-                shapeStyle: 'square',
-                waveSpeed: 0.08
-            },
-            peaceful: {
-                color1: '#4facfe',
-                color2: '#00f2fe',
-                particleColor: 'rgba(255, 255, 255, 0.5)',
-                particleCount: 20,
-                particleSpeed: 0.3,
-                shapeStyle: 'circle',
-                waveSpeed: 0.01
-            },
-            mysterious: {
-                color1: '#43e97b',
-                color2: '#38f9d7',
-                particleColor: 'rgba(67, 233, 123, 0.7)',
-                particleCount: 50,
-                particleSpeed: 1,
-                shapeStyle: 'triangle',
-                waveSpeed: 0.05
-            },
-            intense: {
-                color1: '#fa709a',
-                color2: '#fee140',
-                particleColor: 'rgba(250, 112, 154, 0.8)',
-                particleCount: 100,
-                particleSpeed: 3,
-                shapeStyle: 'square',
-                waveSpeed: 0.1
-            },
-            dreamy: {
-                color1: '#a8edea',
-                color2: '#fed6e3',
-                particleColor: 'rgba(168, 237, 234, 0.6)',
-                particleCount: 40,
-                particleSpeed: 0.8,
-                shapeStyle: 'circle',
-                waveSpeed: 0.03
-            }
-        };
-
-        // Current State
-        let currentState = 'calm';
-        let particles = [];
-        let waveOffset = 0;
-
         // Particle Class
         class Particle {
-            constructor(config) {
+            constructor(particleCount, particleSpeed) {
                 this.x = Math.random() * width;
                 this.y = Math.random() * height;
                 this.size = Math.random() * 3 + 1;
-                this.speedX = (Math.random() - 0.5) * config.particleSpeed;
-                this.speedY = (Math.random() - 0.5) * config.particleSpeed;
-                this.color = config.particleColor;
-                this.shape = config.shapeStyle;
+                this.speedX = (Math.random() - 0.5) * particleSpeed;
+                this.speedY = (Math.random() - 0.5) * particleSpeed;
+                this.opacity = Math.random() * 0.5 + 0.3;
             }
 
             update() {
@@ -412,104 +686,158 @@
             }
 
             draw() {
-                ctx.fillStyle = this.color;
-
-                if (this.shape === 'circle') {
-                    ctx.beginPath();
-                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                    ctx.fill();
-                } else if (this.shape === 'square') {
-                    ctx.fillRect(this.x, this.y, this.size * 2, this.size * 2);
-                } else if (this.shape === 'triangle') {
-                    ctx.beginPath();
-                    ctx.moveTo(this.x, this.y - this.size);
-                    ctx.lineTo(this.x - this.size, this.y + this.size);
-                    ctx.lineTo(this.x + this.size, this.y + this.size);
-                    ctx.closePath();
-                    ctx.fill();
-                }
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
             }
         }
 
         // Initialize Particles
-        function initParticles() {
+        function initParticles(count, speed) {
             particles = [];
-            const config = stateConfigs[currentState];
-            for (let i = 0; i < config.particleCount; i++) {
-                particles.push(new Particle(config));
+            for (let i = 0; i < count; i++) {
+                particles.push(new Particle(count, speed));
             }
-        }
-
-        // Draw Wave Effect
-        function drawWave() {
-            const config = stateConfigs[currentState];
-            waveOffset += config.waveSpeed;
-
-            ctx.beginPath();
-            ctx.moveTo(0, height / 2);
-
-            for (let x = 0; x < width; x++) {
-                const y = height / 2 + Math.sin(x * 0.01 + waveOffset) * 50;
-                ctx.lineTo(x, y);
-            }
-
-            ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
-            ctx.lineWidth = 2;
-            ctx.stroke();
         }
 
         // Animation Loop
         function animate() {
             ctx.clearRect(0, 0, width, height);
-
-            // Draw wave
-            drawWave();
-
-            // Update and draw particles
             particles.forEach(particle => {
                 particle.update();
                 particle.draw();
             });
-
             requestAnimationFrame(animate);
         }
 
-        // Change State
-        function changeState(newState) {
-            currentState = newState;
-
-            // Update body class
-            document.body.className = newState + '-state';
-
-            // Update central text
-            document.getElementById('state-text').textContent = newState.charAt(0).toUpperCase() + newState.slice(1);
-
-            // Update shape based on state
-            const shape = document.getElementById('central-shape');
-            const config = stateConfigs[newState];
-
-            if (config.shapeStyle === 'square') {
-                shape.style.borderRadius = '20px';
-            } else if (config.shapeStyle === 'triangle') {
-                shape.style.borderRadius = '30% 70% 70% 30% / 30% 30% 70% 70%';
-            } else {
-                shape.style.borderRadius = '50%';
-            }
-
-            // Update info
-            document.getElementById('state-info').textContent = `Current State: ${newState.toUpperCase()}`;
-
-            // Reinitialize particles
-            initParticles();
+        // Change Background
+        function changeBackground(color1, color2) {
+            document.body.style.background = `linear-gradient(135deg, ${color1} 0%, ${color2} 100%)`;
         }
 
-        // Button Event Listeners
-        document.querySelectorAll('.state-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const state = btn.getAttribute('data-state');
-                changeState(state);
+        // Go to Page
+        function goToPage(step) {
+            const pages = document.querySelectorAll('.page');
+            pages.forEach((page, index) => {
+                if (index === currentStep) {
+                    page.classList.add('exit-left');
+                    setTimeout(() => {
+                        page.classList.remove('active', 'exit-left');
+                    }, 800);
+                }
+                if (index === step) {
+                    setTimeout(() => {
+                        page.classList.add('active');
+                    }, 400);
+                }
             });
-        });
+
+            currentStep = step;
+            updateProgress();
+        }
+
+        // Update Progress
+        function updateProgress() {
+            document.querySelectorAll('.progress-dot').forEach((dot, index) => {
+                if (index <= currentStep) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        }
+
+        // Select Emotion
+        function selectEmotion(step, emotion) {
+            if (step === 1) {
+                selectedEmotions[0] = emotion;
+                const config = emotions[emotion];
+                changeBackground(config.color1, config.color2);
+                initParticles(config.particleCount, config.particleSpeed);
+
+                // Disable the selected emotion in step 2
+                document.querySelectorAll('#emotion-grid-2 .emotion-card').forEach(card => {
+                    if (card.dataset.emotion === emotion) {
+                        card.classList.add('disabled');
+                    } else {
+                        card.classList.remove('disabled');
+                    }
+                });
+
+                // Show selected emotion
+                document.getElementById('selected-display').innerHTML = `
+                    <div class="selected-emotion-badge">${emotions[emotion].icon} ${emotion.toUpperCase()}</div>
+                `;
+
+                setTimeout(() => goToPage(2), 500);
+            } else if (step === 2) {
+                selectedEmotions[1] = emotion;
+                setTimeout(() => {
+                    goToPage(3);
+                    startFusion();
+                }, 500);
+            }
+        }
+
+        // Start Fusion
+        function startFusion() {
+            const emotion1 = selectedEmotions[0];
+            const emotion2 = selectedEmotions[1];
+
+            document.getElementById('fusion-emotion-1').textContent = emotions[emotion1].icon;
+            document.getElementById('fusion-emotion-2').textContent = emotions[emotion2].icon;
+
+            // Mix colors
+            const config1 = emotions[emotion1];
+            const config2 = emotions[emotion2];
+
+            // Average particle settings
+            const avgCount = Math.floor((config1.particleCount + config2.particleCount) / 2);
+            const avgSpeed = (config1.particleSpeed + config2.particleSpeed) / 2;
+            initParticles(avgCount, avgSpeed);
+
+            setTimeout(() => {
+                goToPage(4);
+                showResult();
+            }, 3000);
+        }
+
+        // Show Result
+        function showResult() {
+            const emotion1 = selectedEmotions[0];
+            const emotion2 = selectedEmotions[1];
+            const key1 = `${emotion1}-${emotion2}`;
+            const key2 = `${emotion2}-${emotion1}`;
+            const result = fusionResults[key1] || fusionResults[key2];
+
+            if (result) {
+                document.getElementById('result-title').textContent = result.name.toUpperCase();
+                document.getElementById('result-shape').textContent = result.icon;
+                document.getElementById('result-description').textContent = result.description;
+
+                changeBackground(result.color1, result.color2);
+
+                // Set dynamic shape style
+                const shape = document.getElementById('result-shape');
+                shape.style.borderRadius = '50%';
+                setTimeout(() => {
+                    shape.style.borderRadius = '30% 70% 70% 30% / 30% 30% 70% 70%';
+                }, 500);
+                setTimeout(() => {
+                    shape.style.borderRadius = '50%';
+                }, 1500);
+            }
+        }
+
+        // Restart
+        function restart() {
+            selectedEmotions = [];
+            currentStep = 0;
+            goToPage(0);
+            changeBackground('#667eea', '#764ba2');
+            initParticles(30, 0.5);
+        }
 
         // Audio Control
         const bgmUpload = document.getElementById('bgm-upload');
@@ -523,7 +851,7 @@
             if (file) {
                 const url = URL.createObjectURL(file);
                 bgmAudio.src = url;
-                musicStatus.textContent = file.name.substring(0, 20);
+                musicStatus.textContent = file.name.substring(0, 15);
                 bgmAudio.play();
                 isPlaying = true;
                 musicToggle.textContent = '⏸';
@@ -545,7 +873,7 @@
         });
 
         // Initialize
-        initParticles();
+        initParticles(30, 0.5);
         animate();
     </script>
 </body>
